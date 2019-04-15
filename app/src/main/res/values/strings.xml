@@ -8,4 +8,5 @@
     <string name="elapse_time_zero">0s</string>
     <string name="title_elapse_time">Elapsed Time : </string>
     <string name="calculate_pi">Calculate Pi</string>
+    <string name="pi_default_result">0</string>
 </resources>

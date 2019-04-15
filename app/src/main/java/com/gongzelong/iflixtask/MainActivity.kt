@@ -9,7 +9,7 @@ import android.widget.TextView
 
 import java.util.Date
 
-class MainActivity : AppCompatActivity(), Pi.OnPiChangedInterface, View.OnClickListener {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mResultTv: TextView
     private lateinit var mPauseTv: TextView
     private lateinit var mResetTv: TextView
@@ -35,7 +35,6 @@ class MainActivity : AppCompatActivity(), Pi.OnPiChangedInterface, View.OnClickL
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT//强制竖屏
 
         mPi = Pi()
-        mPi!!.setOnPiChangedInterface(this@MainActivity)
 
         mResultTv = findViewById(R.id.result)
         mPauseTv = findViewById(R.id.pause)
@@ -66,7 +65,7 @@ class MainActivity : AppCompatActivity(), Pi.OnPiChangedInterface, View.OnClickL
             if (mIsPause) break
             if (mIsReset) {
                 runOnUiThread {
-                    mResultTv.text = "0"
+                    mResultTv.text = getString(R.string.pi_default_result)
                     mElapsedTimeTv.setText(R.string.elapse_time_zero)
                     mScale = 1
                 }
@@ -83,6 +82,7 @@ class MainActivity : AppCompatActivity(), Pi.OnPiChangedInterface, View.OnClickL
                 runOnUiThread {
                     mElapsedTimeTv.text = String.format("%s%s",
                             getString(R.string.title_elapse_time), elapsedTimeString)
+                    mResultTv.text = mPi?.returnNum() ?: getString(R.string.pi_default_result)
                 }
 
             } catch (e: InterruptedException) {
@@ -91,10 +91,6 @@ class MainActivity : AppCompatActivity(), Pi.OnPiChangedInterface, View.OnClickL
 
             mScale += 1
         }
-    }
-
-    override fun onPiChanged(pi: String) {
-        runOnUiThread { mResultTv.text = pi }
     }
 
     override fun onClick(v: View) {

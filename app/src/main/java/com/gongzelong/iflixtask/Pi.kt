@@ -6,13 +6,7 @@ import java.math.BigDecimal.ONE
 import java.math.BigDecimal.ROUND_HALF_UP
 
 internal class Pi {
-    private var mOnPiChangedInterface: OnPiChangedInterface? = null
     private var mNumber: String? = null
-
-    internal interface OnPiChangedInterface {
-        fun onPiChanged(pi: String)
-    }
-
     fun pi(scale: Int) {
         var a = ONE
         var b = ONE.divide(sqrt(TWO, scale), scale, ROUND_HALF_UP)
@@ -30,15 +24,6 @@ internal class Pi {
 
         val pi = a.add(b).multiply(a.add(b)).divide(t.multiply(FOUR), scale, ROUND_HALF_UP)
         number(pi)
-
-        // print the output of pi result
-        if (mOnPiChangedInterface != null) {
-            mOnPiChangedInterface!!.onPiChanged(pi.toString())
-        }
-    }
-
-    fun setOnPiChangedInterface(onPiChangedInterface: OnPiChangedInterface) {
-        mOnPiChangedInterface = onPiChangedInterface
     }
 
     private fun number(a: BigDecimal) {
